@@ -199,37 +199,31 @@ public class Figure {
         }
         moveToCorner(rotMat);
         while (!inBorders(0, rotMat)) {
-//            for (int i = 1; i <= 4; i++) {
-//                if (inBorders(i, rotMat)) {
-//                    shiftElems(1, rotMat);
-//                    printMatrix(rotMat);
-//                    break;
-//                } else if (inBorders(-i, rotMat)) {
-//                    shiftElems(-1, rotMat);
-//                    printMatrix(rotMat);
-//                    break;
-//                }
-//            }
+            for (int i = 1; i <= 4; i++) {
+                if (inBorders(i, rotMat)) {
+                    shiftElems(1, rotMat);
+                    printMatrix(rotMat);
+                    break;
+                } else if (inBorders(-i, rotMat)) {
+                    shiftElems(-1, rotMat);
+                    printMatrix(rotMat);
+                    break;
+                }
+            }
             changeX(-STEP);
         }
         matrix = rotMat;
     }
 
     public boolean inBorders(int jndxInc) {
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                int js = jndx + jndxInc + j + 1;
-                if (matrix[i][j] == 1 && (js > FIELD_COLS)) return false;
-            }
-        }
-        return true;
+        return inBorders(jndxInc, matrix);
     }
 
     private boolean inBorders(int jndxInc, int[][] matrix) {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 int js = jndx + jndxInc + j;
-                if (matrix[i][j] == 1 && (js > FIELD_COLS || js < 0)) return false;
+                if (matrix[i][j] == 1 && (js >= FIELD_COLS || js < 0)) return false;
             }
         }
         return true;
@@ -256,13 +250,17 @@ public class Figure {
     }
 
     public void moveLeft() {
-        jndx--;
-        x = jndx * BRICK_DIMENTION;
+        if (inBorders(-1)) {
+            jndx--;
+            x = jndx * BRICK_DIMENTION;
+        }
     }
 
     public void moveRight() {
-        jndx++;
-        x = jndx * BRICK_DIMENTION;
+        if (inBorders(1)) {
+            jndx++;
+            x = jndx * BRICK_DIMENTION;
+        }
     }
 
     public void moveDown() {
