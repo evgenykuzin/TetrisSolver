@@ -1,5 +1,9 @@
 # TetrisSolver
-The Project for Polytech. \n
-Для запуска GUI требуется Android studio.\n
-Можно самому управлять фигурами (клавиши: A, D, S, space)\n
+
+The Project for Polytech.
+
+Для запуска GUI требуется Android studio.
+
+Можно самому управлять фигурами (клавиши: A, D, S, space)
+
 При нажатии S бот ускоряется.
