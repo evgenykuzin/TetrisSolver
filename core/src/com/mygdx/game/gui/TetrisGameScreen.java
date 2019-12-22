@@ -46,6 +46,7 @@ public class TetrisGameScreen implements Screen {
         painter.drawBorders();
         batch.begin();
         int speed = 1;
+        bot.setSpeed(speed);
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             figure.rotate();
         }
@@ -59,18 +60,13 @@ public class TetrisGameScreen implements Screen {
             }
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             speed = STEP;
+            bot.setSpeed(speed);
         }
+        bot.play(field, figure);
         painter.drawFigure(figure);
         painter.drawField(field);
-        figure.changeY(-speed);
-        if (field.update(figure)) {
-            //figure = figureGenerator.generate();  //for bot generate(0)!
-            figure = bot.choose(field, figureGenerator.generate(0));
-        }
-        field.checkFullLine();
         painter.drawScore(field);
         batch.end();
-
     }
 
     @Override

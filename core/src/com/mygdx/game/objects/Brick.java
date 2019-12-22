@@ -1,5 +1,7 @@
 package com.mygdx.game.objects;
 
+import static com.mygdx.game.consts.Const.BRICK_DIM;
+
 public class Brick {
     private int x;
     private int y;
@@ -8,8 +10,8 @@ public class Brick {
     public Brick(int y, int x){
         this.x = x;
         this.y = y;
-        width = 16;
-        height = 16;
+        width = BRICK_DIM;
+        height = BRICK_DIM;
     }
 
     public void setPosition(int x, int y){

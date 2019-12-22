@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
-import static com.mygdx.game.consts.Const.BRICK_DIMENTION;
+import static com.mygdx.game.consts.Const.BRICK_DIM;
 import static com.mygdx.game.consts.Const.FIELD_COLS;
 import static com.mygdx.game.consts.Const.STEP;
 
@@ -41,24 +41,14 @@ public class Figure {
     }
 
     public Figure(Figure figure) {
-        indx = figure.index();
-        jndx = figure.jndex();
-        figureType = figure.figureType;
-        x = jndx * BRICK_DIMENTION;
-        y = indx * BRICK_DIMENTION;
-        matrix = new int[ROWS][COLS];
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                matrix[i][j] = figure.getMatrix()[i][j];
-            }
-        }
+      set(figure);
     }
 
     private void init(int i, int j) {
         indx = i;
         jndx = j;
-        x = j * BRICK_DIMENTION;
-        y = i * BRICK_DIMENTION;
+        x = j * BRICK_DIM;
+        y = i * BRICK_DIM;
         if (figureType.equals(type.I)) {
             matrix = new int[][]{
                     new int[]{1, 0, 0, 0},
@@ -235,7 +225,7 @@ public class Figure {
 
     public void changeX(int inc) {
         x += inc;
-        int h = BRICK_DIMENTION;
+        int h = BRICK_DIM;
         jndx = x / h;
     }
 
@@ -245,27 +235,27 @@ public class Figure {
 
     public void changeY(int inc) {
         y += inc;
-        int h = BRICK_DIMENTION;
+        int h = BRICK_DIM;
         indx = y / h;
     }
 
     public void moveLeft() {
         if (inBorders(-1)) {
             jndx--;
-            x = jndx * BRICK_DIMENTION;
+            x = jndx * BRICK_DIM;
         }
     }
 
     public void moveRight() {
         if (inBorders(1)) {
             jndx++;
-            x = jndx * BRICK_DIMENTION;
+            x = jndx * BRICK_DIM;
         }
     }
 
     public void moveDown() {
         indx--;
-        y = indx * BRICK_DIMENTION;
+        y = indx * BRICK_DIM;
     }
 
     public int index() {
@@ -278,6 +268,20 @@ public class Figure {
 
     public int[][] getMatrix() {
         return matrix;
+    }
+
+    public void set(Figure figure){
+        indx = figure.index();
+        jndx = figure.jndex();
+        figureType = figure.figureType;
+        x = jndx * BRICK_DIM;
+        y = indx * BRICK_DIM;
+        matrix = new int[ROWS][COLS];
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                matrix[i][j] = figure.getMatrix()[i][j];
+            }
+        }
     }
 
     @Override

@@ -13,7 +13,7 @@ import com.mygdx.game.objects.Figure;
 
 import java.util.ArrayList;
 
-import static com.mygdx.game.consts.Const.BRICK_DIMENTION;
+import static com.mygdx.game.consts.Const.BRICK_DIM;
 import static com.mygdx.game.consts.Const.FIELD_HEIGHT;
 import static com.mygdx.game.consts.Const.FIELD_WIDTH;
 
@@ -44,8 +44,8 @@ public class Painter {
         if (bricks == null) setBricks();
         int x = figure.getX();
         int y = figure.getY();
-        int width = BRICK_DIMENTION;
-        int height = BRICK_DIMENTION;
+        int width = BRICK_DIM;
+        int height = BRICK_DIM;
         for (int i = 0; i < figure.getMatrix().length; i++) {
             for (int j = 0; j < figure.getMatrix().length; j++) {
                 if (figure.getMatrix()[i][j] == 1) {
@@ -71,7 +71,7 @@ public class Painter {
         for (int i = 0; i < field.getRows(); i++) {
             for (int j = 0; j < field.getCols(); j++) {
                 if (field.getMatrix()[i][j] == 1) {
-                    Brick brick = new Brick(i*BRICK_DIMENTION, j*BRICK_DIMENTION);
+                    Brick brick = new Brick(i* BRICK_DIM, j* BRICK_DIM);
                     this.drawBrick(brick);
                 }
             }
@@ -80,19 +80,19 @@ public class Painter {
 
     public void drawBorders(){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.line(FIELD_WIDTH, 0, FIELD_WIDTH, FIELD_HEIGHT*BRICK_DIMENTION);
-        shapeRenderer.line(0, FIELD_HEIGHT, FIELD_WIDTH*BRICK_DIMENTION, FIELD_HEIGHT);
+        shapeRenderer.line(FIELD_WIDTH, 0, FIELD_WIDTH, FIELD_HEIGHT* BRICK_DIM);
+        shapeRenderer.line(0, FIELD_HEIGHT, FIELD_WIDTH* BRICK_DIM, FIELD_HEIGHT);
         for (int i = FIELD_HEIGHT; i < Gdx.graphics.getHeight(); i++) {
-            shapeRenderer.line(0, i, FIELD_WIDTH*BRICK_DIMENTION, i);
+            shapeRenderer.line(0, i, FIELD_WIDTH* BRICK_DIM, i);
         }
         for (int i = FIELD_WIDTH; i < Gdx.graphics.getWidth(); i++) {
-            shapeRenderer.line(i, 0, i, FIELD_HEIGHT*BRICK_DIMENTION);
+            shapeRenderer.line(i, 0, i, FIELD_HEIGHT* BRICK_DIM);
         }
         shapeRenderer.end();
     }
 
     public void drawScore(Field field) {
-        font.draw(batch, "Score: "+field.getScore(), FIELD_WIDTH+10, FIELD_HEIGHT+10);
+        font.draw(batch, "Score: "+field.getScore(), FIELD_WIDTH+10, FIELD_HEIGHT-FIELD_HEIGHT/3);
     }
 
 }

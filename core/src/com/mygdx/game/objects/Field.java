@@ -91,15 +91,22 @@ public class Field {
                     break;
                 }
             }
-            if (counter >= 20 && !lineIsFull) {
+            if (counter >= FIELD_COLS && !lineIsFull) {
                 lineIsFull = true;
                 for (int j = 0; j < cols; j++) {
                     matrix[i][j] = 0;
                 }
             }
         }
-        if (lineIsFull) score += 20;
+        if (lineIsFull) score += FIELD_COLS;
         return lineIsFull;
+    }
+
+    public boolean checkGameOver(){
+        for (int i = 0; i < cols; i++) {
+            if(matrix[rows-1][i] == 1) return true;
+        }
+        return false;
     }
 
     public void setField(Field field) {
