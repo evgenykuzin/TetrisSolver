@@ -10,6 +10,7 @@ import com.mygdx.game.consts.RTextures;
 import com.mygdx.game.objects.Brick;
 import com.mygdx.game.objects.Field;
 import com.mygdx.game.objects.Figure;
+import com.mygdx.game.objects.gui_objects.Button;
 
 import java.util.ArrayList;
 
@@ -23,12 +24,22 @@ public class Painter {
     private Texture texture;
     private ArrayList<Brick> bricks;
     private BitmapFont font;
+    private Texture[] textures;
     public Painter(SpriteBatch batch) {
         this.batch = batch;
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setColor(Color.SLATE);
         font = new BitmapFont();
         font.setColor(Color.WHITE);
+        textures = new Texture[] {
+                RTextures.blue_block,
+                RTextures.gold_block,
+                RTextures.gray_block,
+                RTextures.green_block,
+                RTextures.purple_block,
+                RTextures.red_block
+        };
+        setTexture();
     }
 
     public void setTexture(){
@@ -36,6 +47,10 @@ public class Painter {
     }
 
     public void drawBrick(Brick brick) {
+        if (texture == null) setTexture();
+        batch.draw(texture, brick.getX(), brick.getY(), brick.getWidth(), brick.getHeight());
+    }
+    public void drawBrick(Brick brick, Texture texture) {
         if (texture == null) setTexture();
         batch.draw(texture, brick.getX(), brick.getY(), brick.getWidth(), brick.getHeight());
     }
@@ -50,7 +65,15 @@ public class Painter {
             for (int j = 0; j < figure.getMatrix().length; j++) {
                 if (figure.getMatrix()[i][j] == 1) {
                     bricks.get(i).setPosition(x, y);
-                    drawBrick(bricks.get(i));
+//                    Texture texture = null;
+//                    while (texture == null) {
+//                        for (int k = 0; k < textures.length; k++) {
+//                            if (new Random().nextInt(7) == 1) {
+//                                texture = textures[k];
+//                            }
+//                        }
+//                    }
+                    drawBrick(bricks.get(i), texture);
                 }
                 x += width;
             }
@@ -93,6 +116,16 @@ public class Painter {
 
     public void drawScore(Field field) {
         font.draw(batch, "Score: "+field.getScore(), FIELD_WIDTH+10, FIELD_HEIGHT-FIELD_HEIGHT/3);
+    }
+
+    public void drawButton(Button button){
+        int sX = button.getX();
+        int sY = button.getY();
+        int sW = button.getWidth();
+        int sH = button.getHeight();
+        batch.draw(RTextures.gold_block, sX, sY, sW, sH);
+        font.draw(batch, button.getLabel(), sX+sW/4, sY+sH-sH/3);
+
     }
 
 }

@@ -6,7 +6,6 @@ import com.mygdx.game.objects.FigureGenerator;
 
 import java.util.ArrayList;
 import static com.mygdx.game.consts.Const.FIELD_COLS;
-import static com.mygdx.game.consts.Const.STEP;
 
 public class Bot {
     int speed;

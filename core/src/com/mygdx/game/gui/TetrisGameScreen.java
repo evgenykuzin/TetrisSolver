@@ -10,6 +10,9 @@ import com.mygdx.game.bot.Bot;
 import com.mygdx.game.objects.Field;
 import com.mygdx.game.objects.Figure;
 import com.mygdx.game.objects.FigureGenerator;
+import com.mygdx.game.objects.gui_objects.Button;
+
+import static com.mygdx.game.consts.Const.FIELD_WIDTH;
 import static com.mygdx.game.consts.Const.STEP;
 
 public class TetrisGameScreen implements Screen {
@@ -20,7 +23,11 @@ public class TetrisGameScreen implements Screen {
     private Field field;
     private Painter painter;
     private Bot bot;
-
+    private Button speedButton;
+    private Button botButton;
+    private boolean botIsPlayer;
+    private int speed = 1;
+    private boolean touchOff = false;
     TetrisGameScreen() {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
@@ -31,6 +38,34 @@ public class TetrisGameScreen implements Screen {
         painter = new Painter(batch);
         bot = new Bot();
         figure = bot.choose(field, figureGenerator.generate(0));
+        speedButton = new Button(FIELD_WIDTH, 200, "Boost");
+        speedButton.setAction(new Button.ActionSetter() {
+            @Override
+            public boolean action() {
+                if (bot.getSpeed() == 1) {
+                    bot.setSpeed(STEP);
+                    speedButton.setLabel("Slow");
+                } else {
+                    bot.setSpeed(1);
+                    speedButton.setLabel("Boost");
+                }
+                return true;
+            }
+        });
+        botIsPlayer = false;
+        botButton = new Button(FIELD_WIDTH, 100, "Bot help");
+        botButton.setAction(new Button.ActionSetter() {
+            @Override
+            public boolean action() {
+                botIsPlayer = !botIsPlayer;
+                if (!botIsPlayer) {
+                    botButton.setLabel("Bot help!");
+                } else {
+                    botButton.setLabel("Myself!");
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -45,8 +80,6 @@ public class TetrisGameScreen implements Screen {
         camera.update();
         painter.drawBorders();
         batch.begin();
-        int speed = 1;
-        bot.setSpeed(speed);
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             figure.rotate();
         }
@@ -59,13 +92,51 @@ public class TetrisGameScreen implements Screen {
                 figure.changeX(STEP);
             }
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            speed = STEP;
-            bot.setSpeed(speed);
+            if (botIsPlayer) {
+                if (bot.getSpeed() == 1) {
+                    bot.setSpeed(STEP);
+                } else {
+                    bot.setSpeed(1);
+                }
+            } else {
+                speed = STEP;
+            }
+        } else {
+            if (!botIsPlayer) {
+                speed = 1;
+            }
         }
-        bot.play(field, figure);
+
+//        if (Gdx.input.isTouched()) {
+//            touchOff = true;
+//        } else if (touchOff) {
+//
+//            touchOff = false;
+//        }
+        if (Gdx.input.isTouched()) {
+           touchOff = true;
+        } else if (touchOff) {
+            botButton.click(Gdx.input.getX(), Gdx.input.getY());
+            speedButton.click(Gdx.input.getX(), Gdx.input.getY());
+
+            touchOff = false;
+        }
+        if (botIsPlayer) {
+            bot.play(field, figure);
+        } else {
+            if (!field.checkGameOver()) {
+                figure.changeY(-speed);
+                if (field.update(figure)) {
+                    figure = figureGenerator.generate();
+                }
+                field.checkFullLine();
+            }
+        }
         painter.drawFigure(figure);
         painter.drawField(field);
         painter.drawScore(field);
+        painter.drawButton(speedButton);
+        painter.drawButton(botButton);
         batch.end();
     }
 

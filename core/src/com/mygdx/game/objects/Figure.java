@@ -119,7 +119,6 @@ public class Figure {
         for (int i = 0; i < ROWS; i++) {
             if (matrix[i][0] == 1 && dir == -1) return;
             if (matrix[i][COLS - 1] == 1 && dir == 1) {
-                System.out.println("!!!!!!!!!!");
                 return;
             }
         }
@@ -192,11 +191,9 @@ public class Figure {
             for (int i = 1; i <= 4; i++) {
                 if (inBorders(i, rotMat)) {
                     shiftElems(1, rotMat);
-                    printMatrix(rotMat);
                     break;
                 } else if (inBorders(-i, rotMat)) {
                     shiftElems(-1, rotMat);
-                    printMatrix(rotMat);
                     break;
                 }
             }

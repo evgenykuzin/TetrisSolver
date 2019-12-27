@@ -23,10 +23,13 @@ public class Classifier {
         oldMatrix = oldField.getMatrix();
         newMatrix = newField.getMatrix();
         markList = new ArrayList<Integer>();
-        setHeightMark();
         setHolesMark();
-        //setHollowsMark();
         setFullLineMark();
+        setHeightMark();
+//        setHeightMark();
+//        setHolesMark();
+//        //setHollowsMark();
+//        setFullLineMark();
     }
 
     public Classifier(ArrayList<Integer> markList) {
@@ -49,18 +52,46 @@ public class Classifier {
         return markList;
     }
 
+//    public Classifier getBetter(Classifier anotherMarks) {
+//        Classifier best = this;
+//        int bestDiff = 0;
+//        ArrayList<Integer> anotherList = anotherMarks.getMarkList();
+//        int sum1 = 0;
+//        int sum2 = 0;
+//        for (int i = 0; i < markList.size(); i++) {
+//            int diff = anotherList.get(i) - markList.get(i);
+//            if (diff > bestDiff) {
+//                bestDiff = diff;
+//                best = anotherMarks;
+//            }
+//            sum1+=markList.get(i);
+//            sum2+=anotherList.get(i);
+//        }
+//       // best = sum1/markList.size() < sum2/anotherList.size()? this : anotherMarks;
+//        return best;
+//    }
+
     public Classifier getBetter(Classifier anotherMarks) {
         Classifier best = this;
         int bestDiff = 0;
         ArrayList<Integer> anotherList = anotherMarks.getMarkList();
-        for (int i = 0; i < markList.size(); i++) {
-            int diff = anotherList.get(i) - markList.get(i);
-            if (diff > bestDiff) {
-                bestDiff = diff;
-                best = anotherMarks;
+       // int diff = 0;
+        int diff1 = anotherList.get(0) - markList.get(0);
+        int diff2 = anotherList.get(1) - markList.get(1);
+        int diff3 = anotherList.get(2) - markList.get(2);
+
+        if(diff1 > 0){
+           return anotherMarks;
+        } else if (diff1 == 0) {
+            if(diff2 > 0) {
+                return anotherMarks;
+            } else if (diff2 == 0 ) {
+                if (diff3 > 0) {
+                    return anotherMarks;
+                }
             }
         }
-        return best;
+        return this;
     }
 
     public void setFullLineMark() {
@@ -165,10 +196,10 @@ public class Classifier {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Classifier {\n");
-        sb.append(" hightMark: " + markList.get(0) + "\n");
+        sb.append(" fullLinesMark: " + markList.get(0) + "\n");
         sb.append(" holesMark: " + markList.get(1) + "\n");
-        sb.append(" hollowsMark: " + markList.get(2) + "\n");
-        sb.append(" fullLines: "+ markList.get(3) +"\n");
+        sb.append(" hightMark: " + markList.get(2) + "\n");
+//        sb.append(" hollows: "+ markList.get(3) +"\n");
         sb.append("\n}");
         return sb.toString();
     }
