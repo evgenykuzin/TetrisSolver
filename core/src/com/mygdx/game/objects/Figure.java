@@ -1,10 +1,7 @@
 package com.mygdx.game.objects;
-
-import com.sun.org.glassfish.gmbal.Description;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
-
 import static com.mygdx.game.consts.Const.BRICK_DIM;
 import static com.mygdx.game.consts.Const.FIELD_COLS;
 import static com.mygdx.game.consts.Const.STEP;
@@ -110,11 +107,6 @@ public class Figure {
         System.out.println(sb.toString());
     }
 
-    @Description("dir:\n" +
-            "1 -> right\n" +
-            "-1 -> left\n" +
-            "2 -> up\n" +
-            "-2 -> down")
     public void shiftElems(int dir, int[][] matrix) {
         for (int i = 0; i < ROWS; i++) {
             if (matrix[i][0] == 1 && dir == -1) return;
